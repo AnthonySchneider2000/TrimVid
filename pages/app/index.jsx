@@ -273,13 +273,11 @@ const App = () => {
         <div style={{ display: "flex", flexDirection: "row", gap: "1rem", justifyContent: "center", alignContent: "center" }}>
           <Input
             type="number"
-            value={startTime}
             placeholder="Start Time"
             onChange={(event) => handleStartTimeChange(event)}
           />
           <Input
             type="number"
-            value={endTime}
             placeholder="End Time"
             onChange={(event) => handleEndTimeChange(event)}
           />
