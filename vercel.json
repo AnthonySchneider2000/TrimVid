@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+      {
+        "source": "/api/:match*",
+        "destination": "https://ffmpeg-online-orpin.vercel.app/api/:match*"
+      }
+    ]
+  }
