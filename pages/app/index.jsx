@@ -219,7 +219,7 @@ const App = () => {
         </Spin>
       )}
 
-      <h2 align="center">ffmpeg-online</h2>
+      <h2 align="center">TrimVid</h2>
 
       <h4>1. Select file</h4>
       <p style={{ color: "gray" }}>
