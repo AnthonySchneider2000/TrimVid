@@ -1,9 +1,10 @@
 import ytdl from 'ytdl-core';
+import fs from 'fs';
 
-export default async function downloadVideo(req, res) {
+const downloadVideo = async (req, res) => {
   if (req.method === 'GET') {
     try {
-      const { url } = req.query;
+      const { url } = req.body;
 
       // Check if the URL is a valid YouTube video URL
       if (!ytdl.validateURL(url)) {
@@ -27,4 +28,6 @@ export default async function downloadVideo(req, res) {
   } else {
     res.status(405).end(); // Method Not Allowed
   }
-}
+};
+
+export default downloadVideo;
