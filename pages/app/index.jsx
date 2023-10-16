@@ -27,6 +27,8 @@ const App = () => {
   const currentFSls = useRef([]);
   const [url, setUrl] = useState("");
   const [video, setVideo] = useState(null);
+  const [startTime, setStartTime] = useState(0);
+  const [endTime, setEndTime] = useState(0);
 
   const handleUrlChange = (event) => {
     setUrl(event.target.value);
@@ -57,6 +59,17 @@ const App = () => {
     }
   };
 
+
+  const handleStartTimeChange = (event) => {
+    setStartTime(event.target.value);
+    setOutputOptions(`-ss ${event.target.value} -to ${endTime}`);
+  };
+
+  const handleEndTimeChange = (event) => {
+    setEndTime(event.target.value);
+    setOutputOptions(`-ss ${startTime} -to ${event.target.value}`);
+  }
+  
   const handleExec = async () => {
     if (!file) {
       return;
@@ -237,12 +250,11 @@ const App = () => {
       <Button type="primary" disabled={!Boolean(url)} onClick={downloadVideo}>
         Download Video
       </Button>
-      {video && <video controls width="400"
-      style={{ marginTop: "1rem" }}
-      src={video} />}
+      {video && (
+        <video controls width="400" style={{ marginTop: "1rem" }} src={video} />
+      )}
       <h4>2. Set ffmpeg options</h4>
       <div className="exec">
-        ffmpeg
         <Input
           value={inputOptions}
           placeholder="please enter input options"
@@ -258,6 +270,20 @@ const App = () => {
           placeholder="please enter output options"
           onChange={(event) => setOutputOptions(event.target.value)}
         />
+        <div style={{ display: "flex", flexDirection: "row", gap: "1rem", justifyContent: "center", alignContent: "center" }}>
+          <Input
+            type="number"
+            value={startTime}
+            placeholder="Start Time"
+            onChange={(event) => handleStartTimeChange(event)}
+          />
+          <Input
+            type="number"
+            value={endTime}
+            placeholder="End Time"
+            onChange={(event) => handleEndTimeChange(event)}
+          />
+        </div>
         <Input
           value={output}
           placeholder="Please enter the download file name"
@@ -302,9 +328,9 @@ const App = () => {
           <br />
         </div>
       ))}
-      {href && <video controls width="400"
-      style={{ marginTop: "1rem" }}
-      src={href} />}
+      {href && (
+        <video controls width="400" style={{ marginTop: "1rem" }} src={href} />
+      )}
       <br />
       <br />
       <a
