@@ -2,7 +2,7 @@ import ytdl from 'ytdl-core';
 import fs from 'fs';
 
 const downloadVideo = async (req, res) => {
-  if (req.method === 'GET') {
+  if (req.method === 'POST') {
     try {
       const { url } = req.body;
 
