@@ -34,7 +34,7 @@ const App = () => {
 
   const downloadVideo = async () => {
     try {
-      const response = await fetch("/api/[video]", {
+      const response = await fetch("/api/video", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
