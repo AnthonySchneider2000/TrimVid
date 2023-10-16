@@ -25,6 +25,35 @@ const App = () => {
   const [downloadFileName, setDownloadFileName] = useState("output.mp4");
   const ffmpeg = useRef();
   const currentFSls = useRef([]);
+  const [url, setUrl] = useState('');
+  const [video, setVideo] = useState(null);
+
+  
+  const handleUrlChange = (event) => {
+    setUrl(event.target.value);
+  };
+
+  const downloadVideo = async () => {
+    try {
+      const response = await fetch('/api/[video]', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url }),
+      });
+
+      if (response.status === 200) {
+        const blob = await response.blob();
+        setVideo(URL.createObjectURL(blob));
+      } else {
+        console.error('Failed to download video.');
+      }
+    } catch (error) {
+      console.error('An error occurred while fetching the video:', error);
+    }
+  };
+  
 
   const handleExec = async () => {
     if (!file) {
@@ -260,7 +289,7 @@ const App = () => {
       <br />
       <br />
       <a
-        href="https://github.com/xiguaxigua/ffmpeg-online"
+        href="https://github.com/AnthonySchneider2000/ffmpeg-online/"
         target="_blank"
         className="github-corner"
         aria-label="View source on GitHub"
@@ -296,6 +325,18 @@ const App = () => {
           ></path>
         </svg>
       </a>
+      <div>
+      <input
+        type="text"
+        value={url}
+        onChange={handleUrlChange}
+        placeholder="Enter YouTube URL"
+      />
+      <button onClick={downloadVideo}>Download Video</button>
+      {video && (
+        <video controls width="400" src={video} />
+      )}
+    </div>
       <Analytics />
     </div>
   );
