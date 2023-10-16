@@ -34,14 +34,10 @@ const App = () => {
 
   const downloadVideo = async () => {
     try {
-      const response = await fetch("/api/video", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ url }),
+      const response = await fetch(`/api/video?url=${url}`, {
+        method: 'GET',
       });
-
+  
       if (response.status === 200) {
         const blob = await response.blob();
         setVideo(URL.createObjectURL(blob));
@@ -50,12 +46,13 @@ const App = () => {
         setFileList((v) => [...v, new File([blob], "YoutubeVideo.mp4")]);
         setName("YoutubeVideo.mp4"); // set the name of the file to be used by ffmpeg
       } else {
-        console.error("Failed to download video.");
+        console.error('Failed to download video.');
       }
     } catch (error) {
-      console.error("An error occurred while fetching the video:", error);
+      console.error('An error occurred while fetching the video:', error);
     }
   };
+  
 
   const handleExec = async () => {
     if (!file) {
