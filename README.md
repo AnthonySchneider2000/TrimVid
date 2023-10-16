@@ -1,8 +1,8 @@
 # ffmpeg-online
 
-> https://ffmpeg-online.vercel.app/
+> https://trimvid.vercel.app/
 
-An online version of ffmpeg based on ffmpeg.wasm, which can be used to process audio and video online
+An online version of ffmpeg based on ffmpeg.wasm, which can be used to process audio and video online (fork of [this wonderful repository](https://github.com/xiguaxigua/ffmpeg-online))
 
 ## Clip video
 
