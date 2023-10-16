@@ -25,20 +25,19 @@ const App = () => {
   const [downloadFileName, setDownloadFileName] = useState("output.mp4");
   const ffmpeg = useRef();
   const currentFSls = useRef([]);
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState("");
   const [video, setVideo] = useState(null);
 
-  
   const handleUrlChange = (event) => {
     setUrl(event.target.value);
   };
 
   const downloadVideo = async () => {
     try {
-      const response = await fetch('/api/[video]', {
-        method: 'POST',
+      const response = await fetch("/api/[video]", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ url }),
       });
@@ -46,14 +45,17 @@ const App = () => {
       if (response.status === 200) {
         const blob = await response.blob();
         setVideo(URL.createObjectURL(blob));
+        setFile(blob); // set the file to be used by ffmpeg
+        // add the file to the file list so it can be uploaded
+        setFileList((v) => [...v, new File([blob], "YoutubeVideo.mp4")]);
+        setName("YoutubeVideo.mp4"); // set the name of the file to be used by ffmpeg
       } else {
-        console.error('Failed to download video.');
+        console.error("Failed to download video.");
       }
     } catch (error) {
-      console.error('An error occurred while fetching the video:', error);
+      console.error("An error occurred while fetching the video:", error);
     }
   };
-  
 
   const handleExec = async () => {
     if (!file) {
@@ -158,7 +160,8 @@ const App = () => {
     (async () => {
       ffmpeg.current = createFFmpeg({
         log: true,
-        corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js',
+        corePath:
+          "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js",
       });
       ffmpeg.current.setProgress(({ ratio }) => {
         console.log(ratio);
@@ -216,6 +219,7 @@ const App = () => {
           setFile(file);
           setFileList((v) => [...v, ...fileList]);
           setName(file.name);
+          setVideo(URL.createObjectURL(file));
           return false;
         }}
       >
@@ -224,6 +228,18 @@ const App = () => {
         </p>
         <p className="ant-upload-text">Click or drag file</p>
       </Dragger>
+      <Input
+        type="text"
+        value={url}
+        onChange={handleUrlChange}
+        placeholder="Enter YouTube URL"
+      />
+      <Button type="primary" disabled={!Boolean(url)} onClick={downloadVideo}>
+        Download Video
+      </Button>
+      {video && <video controls width="400"
+      style={{ marginTop: "1rem" }}
+      src={video} />}
       <h4>2. Set ffmpeg options</h4>
       <div className="exec">
         ffmpeg
@@ -286,6 +302,9 @@ const App = () => {
           <br />
         </div>
       ))}
+      {href && <video controls width="400"
+      style={{ marginTop: "1rem" }}
+      src={href} />}
       <br />
       <br />
       <a
@@ -325,18 +344,7 @@ const App = () => {
           ></path>
         </svg>
       </a>
-      <div>
-      <input
-        type="text"
-        value={url}
-        onChange={handleUrlChange}
-        placeholder="Enter YouTube URL"
-      />
-      <button onClick={downloadVideo}>Download Video</button>
-      {video && (
-        <video controls width="400" src={video} />
-      )}
-    </div>
+      <div></div>
       <Analytics />
     </div>
   );
