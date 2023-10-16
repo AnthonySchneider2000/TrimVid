@@ -26,6 +26,7 @@ const downloadVideo = async (req, res) => {
       res.status(500).json({ error: 'An error occurred while processing the request' });
     }
   } else {
+    console.log('Method Not Allowedasdf');
     res.status(405).end(); // Method Not Allowed
   }
 };
