@@ -332,7 +332,7 @@ const App = () => {
       <br />
       <br />
       <a
-        href="https://github.com/AnthonySchneider2000/ffmpeg-online/"
+        href="https://github.com/AnthonySchneider2000/TrimVid/"
         target="_blank"
         className="github-corner"
         aria-label="View source on GitHub"
