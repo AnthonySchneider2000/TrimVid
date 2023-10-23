@@ -1,4 +1,4 @@
-# ffmpeg-online
+# TrimVid
 
 > https://trimvid.vercel.app/
 
